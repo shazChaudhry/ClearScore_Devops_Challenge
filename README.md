@@ -81,7 +81,7 @@ Once you have a docker swarm cluster / infrastructure up and running, ssh on to 
 4. `docker stack services wordpress`. Wait until all replicas are reported as deployed.
 
 ### 4) Configure WordPress
-- Navigate to `http://node1` for local infrastructure or `http://<public-elb-ip>` for AWS to configure WordPress
+- Navigate to [http://node1](http://node1) for local infrastructure or `http://<public-elb-ip>` for AWS to configure WordPress
 - Configure you language and press continue button
 - Configure user credentials and press install button
 - Once configuration is successful, log in with your credentials
