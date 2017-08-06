@@ -76,9 +76,9 @@ This approach creates a new VPC, subnets, gateways, and everything else needed i
 ### 3) Deploy WordPress stack
 Once you have a docker swarm cluster / infrastructure up and running, ssh on to the master node in gitbash. Then create secrets to be used with MySQL and WordPress and then deploy WordPress stack using a compose file. Follow these instructions:
 1. `openssl rand -base64 20 | docker secret create mysql_password -`
-- `openssl rand -base64 20 | docker secret create mysql_root_password -`
-- `docker stack deploy -c docker-compose.yml wordpress`
-- `docker stack services wordpress`. Wait until all replicas are reported as deployed.
+2. `openssl rand -base64 20 | docker secret create mysql_root_password -`
+3. `docker stack deploy -c docker-compose.yml wordpress`
+4. `docker stack services wordpress`. Wait until all replicas are reported as deployed.
 
 ### 4) Configure WordPress
 - Navigate to `http://node1` for local infrastructure or `http://<public-elb-ip>` for AWS to configure WordPress
