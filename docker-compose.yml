@@ -1,0 +1,53 @@
+version: "3.3"
+
+services:
+
+    wordpress:
+        image: wordpress
+        ports:
+            - 80:80
+        environment:
+            WORDPRESS_DB_USER: "wordpress"
+            WORDPRESS_DB_PASSWORD_FILE: "/run/secrets/wp_db_password"
+            WORDPRESS_DB_HOST: "mysql:3306"
+            WORDPRESS_DB_NAME: "wordpress"
+        secrets:
+            - source: mysql_password
+              target: wp_db_password
+              mode: 0400
+        networks:
+            - mysql
+        volumes:
+            - wordpress_data:/var/www/html
+        deploy:
+            replicas: 1
+
+    mysql:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD_FILE: "/run/secrets/mysql_root_password"
+            MYSQL_PASSWORD_FILE: "/run/secrets/mysql_password"
+            MYSQL_USER: "wordpress"
+            MYSQL_DATABASE: "wordpress"
+        secrets:
+            - mysql_root_password
+            - mysql_password
+        networks:
+            - mysql
+        volumes:
+            - mysql_data:/var/lib/mysql
+        deploy:
+            replicas: 1
+
+networks:
+    mysql:
+
+volumes:
+    wordpress_data:
+    mysql_data:
+
+secrets:
+    mysql_root_password:
+        external: true
+    mysql_password:
+        external: true
