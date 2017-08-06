@@ -19,39 +19,41 @@ How you host this application is entirely up to you. You can provide tooling to 
 
 Good luck, have fun and we look forward to hearing from you!
 
----------------------------------------------------------
-
-### One possible solution by __Shahzad Chaudhry__
+# One possible solution by __Shahzad Chaudhry__
 This is a simple solution to the DevOps challenge set above:
 - [Vagrant](https://www.vagrantup.com/docs/index.html) will be used to provision infrastructure on a local machine for the testing of WordPress stack
-- [Docker Community Edition for AWS](https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws) will be used to provision infrastructure in AWS. This infrastructure may be used for deploying public facing WordPress blogs
+- [Docker Community Edition for AWS](https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws) will be used to provision infrastructure in AWS. This is for public facing blogs
 - Docker will be used both as a container and orchestration technologies for standing up WordPress stack. The provided docker compose file will run anywhere Docker is installed. So, it is cloud / platform agnostic
   - Docker version 17.06.0-ce was used for testing this solution
 
-##### Local infrastructure with Vagrant:
-*Assumptions:*
+### 1) Local infrastructure with Vagrant:
+1.1) *Assumptions:*
 - Development machine is a Windows 10 laptop.
 - User has admin privileges on the machine
 - At least 10GB of free RAM is available on the development machine. Otherwise, Vagrantfile will need editing to adjust available memory:
   -	`v.customize ["modifyvm", :id, "--memory", <MEMORY_ALLOCATION>]`
 
-*Prerequisites:*
+1.2) *Prerequisites:*
   -	Install latest version of  [Git bash](https://git-scm.com/downloads)
   -	Install latest version of [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
   -	Install latest version of  [Vagrant](https://www.vagrantup.com/intro/getting-started/install.html)
   -	Install [Vagrant Host Manager](https://github.com/devopsgroup-io/vagrant-hostmanager) plugin by running ```vagrant plugin install vagrant-hostmanager``` in Git bash. This will update host files on both guest and host machines when running "*vagrant up*" command.
 
-*Instructions:*
-  -	In gitbash, run ```vagrant up``` command which will setup a Docker swarm cluster; 1xMaster and 1xWorker. Once infrastructure is created then in gitbash, run ```vagrant ssh node1``` to log into the swarm manager node. This is where WordPress stack will need to be deployed
+1.3) *Instructions:*
+  - `git clone git@github.com:shazChaudhry/ClearScore_Devops_Challenge.git`
+  - `cd ClearScore_Devops_Challenge`
+  -	Run ```vagrant up``` command which will setup a Docker swarm cluster; 1xMaster and 1xWorker. Once infrastructure is created then in gitbash, run ```vagrant ssh node1``` to log into the swarm manager node. This is where WordPress stack will need to be deployed
   - Infrastructure visualizer is available at [http://node1:9080](http://node1:9080). You should see two nodes; one of which is a docker swarm manager and the second one is a docker swarm worker ![alt text](./pics/visualizer.png "Docker Swarm Visualizer")
+
+  - `cd /vagrant`
   - Next, move on to the "Deploy WordPress stack" section below in order to deploy WordPress stack
 
-##### AWS infrastructure with Docker:
-*Create a new VPC:*
+### 2) AWS infrastructure with Docker:
+2.1) *Create a new VPC:*
 
 This approach creates a new VPC, subnets, gateways, and everything else needed in order to run Docker for AWS. It is the easiest way to get started, and requires the least amount of work. All you need to do is run the CloudFormation template, answer some questions, and you are good to go.
 
-*Prerequisites:*
+2.2) *Prerequisites:*
 - SSH key in AWS in the region where you want to deploy (required to access the completed Docker install)
 - Access to an AWS account with permissions to use CloudFormation and creating the following objects
   - EC2 instances + Auto Scaling groups
@@ -62,7 +64,7 @@ This approach creates a new VPC, subnets, gateways, and everything else needed i
   - ELB
   - CloudWatch Log Group
 
-*Instructions:*
+2.3) *Instructions:*
 
 - Instructions on how to create a docker swarm cluster in AWS is fully documented at https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws. For the purpose of creating this solution, [Docker CE for AWS - Edge](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=Docker&templateURL=https://editions-us-east-1.s3.amazonaws.com/aws/edge/Docker.tmpl) was used.
 - Once AWS infrastructure is created, connect to your manager node by following instructions at https://docs.docker.com/docker-for-aws/deploy/#manager-public-ip-on-aws
@@ -71,32 +73,29 @@ This approach creates a new VPC, subnets, gateways, and everything else needed i
   - ssh -i path-to-ssh-key docker@ssh-manager-host
 - Move on to the "Deploy WordPress stack" section below in order to deploy WordPress
 
-##### Deploy WordPress stack
+### 3) Deploy WordPress stack
 Once you have a docker swarm cluster / infrastructure up and running, ssh on to the master node in gitbash. Then create secrets to be used with MySQL and WordPress and then deploy WordPress stack using a compose file. Follow these instructions:
 1. `openssl rand -base64 20 | docker secret create mysql_password -`
 - `openssl rand -base64 20 | docker secret create mysql_root_password -`
 - `docker stack deploy -c docker-compose.yml wordpress`
 - `docker stack services wordpress`. Wait until all replicas are reported as deployed.
 
-###### Configure WordPress
+### 4) Configure WordPress
 - Navigate to `http://node1` for local infrastructure or `http://<public-elb-ip>` for AWS to configure WordPress
 - Configure you language and press continue button
 - Configure user credentials and press install button
 - Once configuration is successful, log in with your credentials
 - Create your first blog
 
-##### WIP
-- Need to figure out if it is possible to mount static content into WordPress via volumes in docker-compose file....
-
-##### Rotate a secret
+### 5) Rotate a secret
 - In this scenario, you create a new secret with a new MySQL password, update the mysql and wordpress services to use it, then remove the old secret.
 - Use the instructions here: https://docs.docker.com/engine/swarm/secrets/#example-rotate-a-secret
 
-##### Clean up
+### 6) Clean up
 - **Vagrant** - Exit the docker swarm master node and execute `vagrant destroy` to destroy virtual boxes
 - **AWS** -  Delete the stack from the CloudFormation page
 
-##### References
+### 7) References
 - [Vagrant](https://www.vagrantup.com/docs/index.html)
 - [Docker Community Edition for AWS](https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws)
 - [Use secrets with a WordPress service](https://docs.docker.com/engine/swarm/secrets/#advanced-example-use-secrets-with-a-wordpress-service)
