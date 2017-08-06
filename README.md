@@ -40,7 +40,7 @@ This is a simple solution to the DevOps challenge set above:
   -	Install [Vagrant Host Manager](https://github.com/devopsgroup-io/vagrant-hostmanager) plugin by running ```vagrant plugin install vagrant-hostmanager``` in Git bash. This will update host files on both guest and host machines when running "*vagrant up*" command.
 
 1.3) *Instructions:*
-  - `git clone git@github.com:shazChaudhry/ClearScore_Devops_Challenge.git`
+  - `git clone https://github.com/shazChaudhry/ClearScore_Devops_Challenge.git`
   - `cd ClearScore_Devops_Challenge`
   -	Run ```vagrant up``` command which will setup a Docker swarm cluster; 1xMaster and 1xWorker. Once infrastructure is created then in gitbash, run ```vagrant ssh node1``` to log into the swarm manager node. This is where WordPress stack will need to be deployed
   - Infrastructure visualizer is available at [http://node1:9080](http://node1:9080). You should see two nodes; one of which is a docker swarm manager and the second one is a docker swarm worker <br /> ![alt text](pics/visualizer.PNG "Docker Swarm Visualizer")
@@ -66,11 +66,24 @@ This approach creates a new VPC, subnets, gateways, and everything else needed i
 
 2.3) *Instructions:*
 
-- Instructions on how to create a docker swarm cluster in AWS is fully documented at https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws. For the purpose of creating this solution, [Docker CE for AWS - Edge](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=Docker&templateURL=https://editions-us-east-1.s3.amazonaws.com/aws/edge/Docker.tmpl) was used.
+- Instructions on how to create a docker swarm cluster in AWS is fully documented at https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws. For the purpose of creating this solution, [Docker CE for AWS - Stable](https://console.aws.amazon.com/cloudformation/home#/stacks/new?stackName=Docker&templateURL=https://editions-us-east-1.s3.amazonaws.com/aws/stable/Docker.tmpl) was used.
 - Once AWS infrastructure is created, connect to your manager node by following instructions at https://docs.docker.com/docker-for-aws/deploy/#manager-public-ip-on-aws
   - eval $(ssh-agent -s) or ssh-agent -s
   - ssh-add path-to-ssh-key
   - ssh -i path-to-ssh-key docker@ssh-manager-host
+- EC2 instances just created are Alpine Linux based. Git client will need to be installed by running `sudo apk update && sudo apk add git && sudo apk add openssl`
+- Start visualizer service by running
+```
+docker service create \
+--name=visualizer \
+--publish=9080:8080/tcp \
+--constraint=node.role==manager \
+--mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+dockersamples/visualizer
+```
+This visualizer should then be available at [http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com:9080/](http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com:9080/)
+- `git clone https://github.com/shazChaudhry/ClearScore_Devops_Challenge.git`
+- `cd ClearScore_Devops_Challenge`
 - Move on to the "Deploy WordPress stack" section below in order to deploy WordPress
 
 ### 3) Deploy WordPress stack
@@ -81,7 +94,7 @@ Once you have a docker swarm cluster / infrastructure up and running, ssh on to 
 4. `docker stack services wordpress`. Wait until all replicas are reported as deployed.
 
 ### 4) Configure WordPress
-- Navigate to [http://node1](http://node1) for local infrastructure or `http://<public-elb-ip>` for AWS to configure WordPress
+- Navigate to [http://node1](http://node1) for local infrastructure or [http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com/](http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com/) for AWS to configure WordPress
 - Configure you language and press continue button
 - Configure user credentials and press install button
 - Once configuration is successful, log in with your credentials
@@ -93,7 +106,7 @@ Once you have a docker swarm cluster / infrastructure up and running, ssh on to 
 
 ### 6) Clean up
 - **Vagrant** - Exit the docker swarm master node and execute `vagrant destroy` to destroy virtual boxes
-- **AWS** -  Delete the stack from the CloudFormation page
+- **AWS** -  Delete the stack from the CloudFormation service page
 
 ### 7) References
 - [Vagrant](https://www.vagrantup.com/docs/index.html)
