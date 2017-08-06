@@ -43,7 +43,7 @@ This is a simple solution to the DevOps challenge set above:
   - `git clone git@github.com:shazChaudhry/ClearScore_Devops_Challenge.git`
   - `cd ClearScore_Devops_Challenge`
   -	Run ```vagrant up``` command which will setup a Docker swarm cluster; 1xMaster and 1xWorker. Once infrastructure is created then in gitbash, run ```vagrant ssh node1``` to log into the swarm manager node. This is where WordPress stack will need to be deployed
-  - Infrastructure visualizer is available at [http://node1:9080](http://node1:9080). You should see two nodes; one of which is a docker swarm manager and the second one is a docker swarm worker ![alt text](./pics/visualizer.png "Docker Swarm Visualizer")
+  - Infrastructure visualizer is available at [http://node1:9080](http://node1:9080). You should see two nodes; one of which is a docker swarm manager and the second one is a docker swarm worker ![alt text](pics/visualizer.PNG "Docker Swarm Visualizer")
 
   - `cd /vagrant`
   - Next, move on to the "Deploy WordPress stack" section below in order to deploy WordPress stack
