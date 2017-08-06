@@ -81,7 +81,8 @@ docker service create \
 --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
 dockersamples/visualizer
 ```
-This visualizer should then be available at [http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com:9080/](http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com:9080/)
+This visualizer should then be available at http://DefaultDNSTarget:9080 which you should be able to look up on AWS CloudFormation page.  
+  - In my case it is - [http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com:9080/](http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com:9080/)
 - `git clone https://github.com/shazChaudhry/ClearScore_Devops_Challenge.git`
 - `cd ClearScore_Devops_Challenge`
 - Move on to the "Deploy WordPress stack" section below in order to deploy WordPress
@@ -94,7 +95,8 @@ Once you have a docker swarm cluster / infrastructure up and running, ssh on to 
 4. `docker stack services wordpress`. Wait until all replicas are reported as deployed.
 
 ### 4) Configure WordPress
-- Navigate to [http://node1](http://node1) for local infrastructure or [http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com/](http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com/) for AWS to configure WordPress
+- Navigate to [http://node1](http://node1) for local infrastructure or for AWS the URL is http://DefaultDNSTarget which you should be able to look up on CloudFormation service page
+  - In my case it is - [http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com/](http://docker-externalloa-rmkl6efmvpdb-1986224484.eu-west-2.elb.amazonaws.com/) for AWS to configure WordPress
 - Configure you language and press continue button
 - Configure user credentials and press install button
 - Once configuration is successful, log in with your credentials
