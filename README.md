@@ -22,7 +22,7 @@ Good luck, have fun and we look forward to hearing from you!
 # One possible solution by __Shahzad Chaudhry__
 This is a simple solution to the DevOps challenge set above:
 - [Vagrant](https://www.vagrantup.com/docs/index.html) will be used to provision infrastructure on a local machine for the testing of WordPress stack
-- [Docker Community Edition for AWS](https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws) will be used to provision infrastructure in AWS. This is for public facing blogs
+- [Docker Community Edition for AWS](https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws), _which is based on a CloudFormation template_, will be used to provision infrastructure in AWS. This infrastructure will be used for public facing blogs
 - Docker will be used both as a container and orchestration technologies for standing up WordPress stack. The provided docker compose file will run anywhere Docker is installed. So, it is cloud / platform agnostic
   - Docker version 17.06.0-ce was used for testing this solution
 
@@ -114,3 +114,19 @@ Once you have a docker swarm cluster / infrastructure up and running, ssh on to 
 - [Vagrant](https://www.vagrantup.com/docs/index.html)
 - [Docker Community Edition for AWS](https://docs.docker.com/docker-for-aws/#docker-community-edition-ce-for-aws)
 - [Use secrets with a WordPress service](https://docs.docker.com/engine/swarm/secrets/#advanced-example-use-secrets-with-a-wordpress-service)
+
+# An alternative solution _(Deploy WordPress using AWS Elastic Beanstalk)_
+Launch a web stack to host your WordPress application using AWS Elastic Beanstalk and Amazon Relational Database Service (RDS). Elastic Beanstalk provisions and manages the underlying infrastructure (e.g., Amazon EC2 instances) and stack components (e.g., OS, web server, language/framework) for you. RDS provides the MySQL database.
+
+This architecture is based on the _"Deploy and host a production-ready WordPress website on AWS"_ guide at https://aws.amazon.com/getting-started/projects/build-wordpress-website/
+
+<p align="center">
+  <img src="pics/Alternative.PNG" alt="Alternative approach" style="width: 300px;"/>
+</p>
+
+**This alternative solution was reject for the following reasons:**
+- No automation as infrastructure would need to be set up manually
+   - One could write Terraform and Ansible scripts to automate provisioning of the infrastructure and installing WordPress. However, this would require additional technical skills and add an other layer of complexity to the solution
+- Increased complexity as extensive AWS knowledge would be required
+- Increased effort in maintaining infrastructure
+- Lock in to AWS technologies and blogs site will not be easily portable
