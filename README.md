@@ -121,7 +121,7 @@ Launch a web stack to host your WordPress application using AWS Elastic Beanstal
 This architecture is based on the _"Deploy and host a production-ready WordPress website on AWS"_ guide at https://aws.amazon.com/getting-started/projects/build-wordpress-website/
 
 <p align="center">
-  <img src="pics/Alternative.PNG" alt="Alternative approach" style="width: 300px;"/>
+  <img src="pics/Alternative.PNG" alt="Alternative approach" style="width: 200px;"/>
 </p>
 
 **This alternative solution was reject for the following reasons:**
