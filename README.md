@@ -19,8 +19,9 @@ How you host this application is entirely up to you. You can provide tooling to 
 
 ### Extended requirements
 - Simplest possible solution
+- App stack must be portable to any platfor running Docker
 - Most cost effective solution
-- Questest to deliver solution
+- Quickest to deliver solution
 
 # One possible solution by __Shahzad Chaudhry__
 This is a simple solution to the DevOps challenge set above:
