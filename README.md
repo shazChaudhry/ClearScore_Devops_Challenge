@@ -1,9 +1,9 @@
 # Clear Score Devops Challenge
 
-This is a challenge where you can showcase your technical skills and the considerations which you make when performing devops and infrastructure tasks. Your solution may be as simple or complex as you like, provided it meets the requirements below, and will serve as a discussion point when you come in to meet us. You should not need to spend more than an hour or two on the challenge.
+This is a challenge where you can showcase your technical skills and the considerations which you make when performing devops and infrastructure tasks. Your solution may be as simple or complex as you like, provided it meets the requirements below.
 
 ### The Brief
-You have been asked to create a web site which can be used for publishing blogs. As a proof of concept, it will be sufficient that you demonstrate a website that displays text (e.g. *Lorem Ipsum* <https://en.wikipedia.org/wiki/Lorem_ipsum> and an image on a single home page.
+You are to create a web site which can be used for publishing blogs. As a proof of concept, it will be sufficient that you demonstrate a website that displays text (e.g. *Lorem Ipsum* <https://en.wikipedia.org/wiki/Lorem_ipsum> and an image on a single home page.
 
 You can create your own application but can also use an open source or community software, such as Wordpress <https://wordpress.org> or Keystone <http://keystonejs.com> (or even use static content). **This proof of concept is to demonstrate the technical feasibility of hosting and, managing and scaling the platform and is not about content**.
 
@@ -17,7 +17,10 @@ You must meet the following requirements:
 
 How you host this application is entirely up to you. You can provide tooling to run it locally or link to an instance running in the cloud. Please bear in mind, however, that we are trying to gauge your aptitude for designing and working with web-scale solutions and technologies, so any solution must demonstrate that you have considered how a real-world solution will be hosted and scaled.
 
-Good luck, have fun and we look forward to hearing from you!
+### Extended requirements
+- Simplest possible solution
+- Most cost effective solution
+- Questest to deliver solution
 
 # One possible solution by __Shahzad Chaudhry__
 This is a simple solution to the DevOps challenge set above:
